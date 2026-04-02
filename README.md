@@ -2,6 +2,21 @@
   <img src="https://raw.githubusercontent.com/zexo-studio/zexo-studio/main/src/assets/logo.png" width="150" />
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/zexo-studio/zexo-studio/main/src/assets/logo.png" width="150" />
+</p>
+
+<h1 align="center">Zexo Studio</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-windows-blue" />
+  <img src="https://img.shields.io/badge/status-early%20development-orange" />
+  <img src="https://img.shields.io/github/license/zexo-studio/zexo-studio" />
+  <img src="https://img.shields.io/github/stars/zexo-studio/zexo-studio" />
+</p>
+
+<p align="center">lightweight local LLM client. fast, clean, not bloated.</p>
+
 # Zexo Studio
 
 lightweight local LLM client. fast, clean, not bloated.
