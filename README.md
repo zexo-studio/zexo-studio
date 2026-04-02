@@ -2,10 +2,6 @@
   <img src="https://raw.githubusercontent.com/zexo-studio/zexo-studio/main/src/assets/logo.png" width="150" />
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/zexo-studio/zexo-studio/main/src/assets/logo.png" width="150" />
-</p>
-
 <h1 align="center">Zexo Studio</h1>
 
 <p align="center">
