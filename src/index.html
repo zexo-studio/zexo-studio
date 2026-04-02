@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zexo Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/main.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- ── Sidebar ──────────────────────────────── -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <img src="/assets/logo.png" alt="Zexo" class="logo-icon" />
+          <span class="logo-text">Zexo Studio</span>
+        </div>
+        <button id="sidebar-collapse-btn" class="icon-btn" title="Collapse sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg>
+        </button>
+      </div>
+
+      <button id="new-chat-btn" class="new-chat-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        <span>New Chat</span>
+      </button>
+
+      <div class="ephemeral-toggle">
+        <label class="toggle-switch" title="Ephemeral mode — chat not saved to history">
+          <input type="checkbox" id="ephemeral-toggle" />
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label">Temp Chat</span>
+        <span class="toggle-hint" title="Messages won't be saved">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        </span>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div id="conversation-list" class="conversation-list">
+        <!-- conversations injected by JS -->
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="models-btn" class="sidebar-footer-btn" title="Model Management">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span>Models</span>
+        </button>
+        <button id="settings-btn" class="sidebar-footer-btn" title="Settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <span>Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ─────────────────────────── -->
+    <main id="main" class="main-content">
+      <header id="topbar" class="topbar">
+        <button id="sidebar-toggle-btn" class="icon-btn" title="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+
+        <div id="model-selector" class="model-selector">
+          <button id="model-selector-btn" class="model-selector-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span id="model-selector-label">Select Model</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div id="model-dropdown" class="model-dropdown hidden">
+            <div id="model-dropdown-list" class="model-dropdown-list">
+              <!-- models injected by JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div id="status-indicator" class="status-indicator" title="Ready">
+            <span class="status-dot status-ready"></span>
+            <span id="status-text" class="status-text">Ready</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ── Chat Messages ───────────────────── -->
+      <div id="chat-messages" class="chat-messages">
+        <div id="welcome-screen" class="welcome-screen">
+          <img src="/assets/logo.png" alt="Zexo" class="welcome-logo" />
+          <h1>Zexo Studio</h1>
+          <p class="welcome-sub">Lightweight local LLM client.<br>Fast, clean, not bloated.</p>
+          <div class="welcome-hints">
+            <div class="hint-card" data-prompt="Explain quantum computing in simple terms">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              <span>Explain quantum computing</span>
+            </div>
+            <div class="hint-card" data-prompt="Write a Python function to sort a list using quicksort">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+              <span>Write a quicksort function</span>
+            </div>
+            <div class="hint-card" data-prompt="What are the best practices for writing clean code?">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              <span>Clean code best practices</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Chat Input ──────────────────────── -->
+      <div id="chat-input-area" class="chat-input-area">
+        <div class="input-wrapper">
+          <textarea
+            id="chat-input"
+            class="chat-input"
+            placeholder="Type a message..."
+            rows="1"
+          ></textarea>
+          <button id="send-btn" class="send-btn" title="Send message">
+            <svg id="send-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            <svg id="stop-icon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+          </button>
+        </div>
+        <div id="generation-stats" class="generation-stats hidden">
+          <span id="stats-text"></span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── Settings Modal ────────────────────────── -->
+  <div id="settings-modal" class="modal-overlay hidden">
+    <div class="modal settings-modal">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="modal-close-btn" data-close="settings-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label class="setting-label">Models Directory</label>
+          <div class="setting-row">
+            <input type="text" id="setting-models-dir" class="setting-input" placeholder="~/zexo-models" />
+          </div>
+          <p class="setting-hint">Path to folder containing .gguf model files</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Temperature <span id="temp-value" class="setting-value">0.7</span></label>
+          <input type="range" id="setting-temperature" class="setting-slider" min="0" max="2" step="0.1" value="0.7" />
+          <p class="setting-hint">Higher = more creative, Lower = more focused</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Top P <span id="topp-value" class="setting-value">0.9</span></label>
+          <input type="range" id="setting-top-p" class="setting-slider" min="0" max="1" step="0.05" value="0.9" />
+          <p class="setting-hint">Nucleus sampling threshold</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Context Length <span id="ctx-value" class="setting-value">4096</span></label>
+          <input type="range" id="setting-num-ctx" class="setting-slider" min="512" max="32768" step="512" value="4096" />
+          <p class="setting-hint">Maximum context window size (tokens)</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">GPU Layers <span id="gpu-value" class="setting-value">999</span></label>
+          <input type="range" id="setting-gpu-layers" class="setting-slider" min="0" max="999" step="1" value="999" />
+          <p class="setting-hint">Number of layers offloaded to GPU (999 = all)</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">System Prompt</label>
+          <textarea id="setting-system-prompt" class="setting-textarea" rows="4" placeholder="You are a helpful assistant..."></textarea>
+          <p class="setting-hint">Default system prompt for new chats</p>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">HuggingFace Token</label>
+          <input type="password" id="setting-hf-token" class="setting-input" placeholder="hf_..." />
+          <p class="setting-hint">Optional — required for gated/private model downloads</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="settings-save-btn" class="btn btn-primary">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Models Modal ──────────────────────────── -->
+  <div id="models-modal" class="modal-overlay hidden">
+    <div class="modal models-modal">
+      <div class="modal-header">
+        <h2>Model Management</h2>
+        <button class="modal-close-btn" data-close="models-modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Tab selector -->
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="installed">Installed</button>
+          <button class="tab-btn" data-tab="download">Download</button>
+        </div>
+
+        <!-- Installed models tab -->
+        <div id="tab-installed" class="tab-content active">
+          <div id="installed-models-list" class="models-list">
+            <!-- populated by JS -->
+          </div>
+          <div id="no-models-msg" class="empty-state hidden">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <p>No models found</p>
+            <p class="empty-hint">Add .gguf files to your models directory or download from HuggingFace</p>
+          </div>
+        </div>
+
+        <!-- Download tab -->
+        <div id="tab-download" class="tab-content hidden">
+          <div class="download-section">
+            <div class="search-bar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input type="text" id="hf-search-input" class="search-input" placeholder="Search HuggingFace for GGUF models..." />
+              <button id="hf-search-btn" class="search-btn">Search</button>
+            </div>
+            <div class="url-bar">
+              <input type="text" id="hf-url-input" class="setting-input" placeholder="Or paste a direct download URL..." />
+              <button id="hf-url-download-btn" class="btn btn-primary btn-sm">Download</button>
+            </div>
+          </div>
+
+          <div id="hf-results" class="hf-results">
+            <!-- populated by JS -->
+          </div>
+
+          <div id="download-progress-area" class="download-progress-area hidden">
+            <div class="download-info">
+              <span id="download-filename">Downloading...</span>
+              <span id="download-speed"></span>
+            </div>
+            <div class="progress-bar">
+              <div id="download-progress-bar" class="progress-fill"></div>
+            </div>
+            <span id="download-percent" class="download-percent">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Context Menu ──────────────────────────── -->
+  <div id="context-menu" class="context-menu hidden">
+    <button class="context-menu-item" data-action="rename">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Rename
+    </button>
+    <button class="context-menu-item delete" data-action="delete">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      Delete
+    </button>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

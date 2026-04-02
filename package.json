@@ -1,0 +1,15 @@
+{
+  "name": "zexo-studio",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Lightweight local LLM client. Fast, clean, not bloated.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "vite": "^6"
+  }
+}
