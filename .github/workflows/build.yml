@@ -39,7 +39,10 @@ jobs:
         run: npm install
 
       - name: Generate icons
-        run: npx tauri icon src/assets/logo.png
+        run: |
+          npm install -g sharp-cli
+          npx sharp -i src/assets/logo.png -o src/assets/logo-square.png --resize 1024 1024 --fit contain --background "transparent"
+          npx tauri icon src/assets/logo-square.png
 
       - name: Build
         run: npm run tauri build
