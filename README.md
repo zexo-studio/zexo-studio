@@ -46,7 +46,7 @@ early development
 
 ## license
 
-source available. look but dont touch. see [LICENSE](LICENSE) for details
+licensed under CC BY-NC-SA 4.0. credit required, no commercial use. see [LICENSE](LICENSE) for details
 
 ## contact
 
