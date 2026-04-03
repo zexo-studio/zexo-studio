@@ -21,10 +21,16 @@ jobs:
       
       - name: Install LLVM
         run: choco install llvm -y
+
+      - name: Install CUDA Toolkit
+        uses: Jimver/cuda-toolkit@v0.2.19
+        with:
+          cuda: '12.6.0'
+          method: 'network'
       
       - name: Install dependencies
         run: npm install
-      
+
       - name: Build
         run: npm run tauri build
       
