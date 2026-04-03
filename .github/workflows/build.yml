@@ -44,6 +44,10 @@ jobs:
           node -e "require('sharp')('src/assets/logo.png').resize(1024,1024,{fit:'contain',background:{r:0,g:0,b:0,alpha:0}}).toFile('src/assets/logo-square.png').then(()=>console.log('done'))"
           npx tauri icon src/assets/logo-square.png
 
+      - name: Fix engine.rs
+        run: |
+          (Get-Content src-tauri/src/llm/engine.rs) -replace '\.token_to_str\(new_token, Default::default\(\)\)', '.token_to_piece(new_token, false)' | Set-Content src-tauri/src/llm/engine.rs
+
       - name: Build
         run: npm run tauri build
       
