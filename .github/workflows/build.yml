@@ -39,7 +39,7 @@ jobs:
         run: npm install
 
       - name: Generate icons
-        run: npx tauri icon src-tauri/icons/icon.png
+        run: npx tauri icon src/assets/logo.png
 
       - name: Build
         run: npm run tauri build
