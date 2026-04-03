@@ -2,7 +2,7 @@ name: Build Zexo Studio
 
 on:
   workflow_dispatch:
-  
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -16,6 +16,15 @@ jobs:
       
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            src-tauri/target
+          key: rust-${{ hashFiles('src-tauri/Cargo.lock') }}
       
       - name: Install LLVM
         run: choco install llvm -y
@@ -28,6 +37,9 @@ jobs:
       
       - name: Install dependencies
         run: npm install
+
+      - name: Generate icons
+        run: npx tauri icon src-tauri/icons/icon.png
 
       - name: Build
         run: npm run tauri build
