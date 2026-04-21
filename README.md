@@ -13,7 +13,7 @@
 
 <p align="center">lightweight local LLM client. fast, clean, not bloated.</p>
 
-# Zexo Studio
+# Zexo Studio (Check out our other services too!: zexo.pro)
 
 lightweight local LLM client. fast, clean, not bloated.
 
